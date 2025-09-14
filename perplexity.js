@@ -52,19 +52,25 @@ function openLastAnswerMenu() {
   answers[0].click();
 }
 
-function isDeleteButton() {
-  return label => {
-    let trimmedLabel = label.textContent.trim().toLowerCase();
-    return DELETE_LABELS.includes(trimmedLabel);
-  };
+function isDeleteButton(item) {
+    let trimmedText = item.innerText.trim().toLowerCase();
+    return DELETE_LABELS.includes(trimmedText);
+}
+
+function findMenuItems() {
+  return Array.from(document.querySelectorAll('[role="menuitem"]'));
 }
 
 function clickDeleteButton() {
-  Array.from(document.querySelectorAll('span'))
-    .find(isDeleteButton())
-    ?.closest('.cursor-pointer')
-    ?.click();
+  const menuItems = findMenuItems();
+  const deleteItem = menuItems.find(isDeleteButton);
+  if (deleteItem != null) {
+    deleteItem.click();
+  } else {
+    console.error('Could not find the delete button for this answer');
+  }
 }
+
 
 function deleteLast() {
   openLastAnswerMenu()
